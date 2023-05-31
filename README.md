@@ -1,2 +1,3 @@
 # AAS_editorial_figures_July2023
- code to generate all figures
+
+Python code to reproduce all three figures in the July 2023 guest editorial of Annals of Actuarial Sciences.
