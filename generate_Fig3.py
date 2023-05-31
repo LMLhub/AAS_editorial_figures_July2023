@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 
 
 def min_func(x, w, p, risk):
-    return p * np.log((w + x - risk)/w) + (1-p)*np.log((w + x)/w)
+    return p * np.log((w + x - risk)/w) + (1-p)*np.log((w + x)/w) if w + x - risk > 0 else -np.inf
 
 #**********************************
 #********* Set parameters *********
@@ -48,8 +48,6 @@ for n_exp in N_exp:
                     min_fee[n] = np.inf         #...don't offer insurance.
                     
             else: #time-average optimizing agents offer insurance at fee which leaves their time-average growth unchanged
-#                min_fee[n] = root_scalar(min_func,args=(w[t][n], p, risk), method='newton', bracket=[risk-w[t][n], risk],xtol=2e-300).root
-#                min_fee[n] = root_scalar(min_func,args=(w[t][n], p, risk), method='brentq', bracket=[max(0,risk-w[t][n]), risk],xtol=2e-300).root
                 min_fee[n] = root_scalar(min_func,args=(w[t][n], p, risk), method='brentq', bracket=[0, risk],xtol=2e-300).root
         min_fee[i] = np.inf     #exclude self-insurance
 
@@ -101,9 +99,14 @@ ax.set_xlabel('time', fontsize=12)
 ax.set_ylabel('wealth', fontsize=12)
 
 plt.xlim(0,T, auto=False)
-plt.ylim(10**-170,10**10, auto=False)
-new_yticks = [1, 10e-21, 10e-41, 10e-61, 10e-81, 10e-101, 10e-121, 10e-141, 10e-161]
-plt.yticks(new_yticks)
+plt.ylim(10**-170,1, auto=False)
+yticklocs = [1, 10e-30, 10e-60, 10e-90, 10e-120, 10e-150]
+plt.yticks(yticklocs,[r'$1$',r'$10^{-30}$',r'$10^{-60}$',r'$10^{-90}$',r'$10^{-120}$',r'$10^{-150}$'])
+ax.spines['right'].set_visible(False)
+ax.spines['top'].set_visible(False)
+ax.spines['bottom'].set_position(('data', 1))
+ax.tick_params(axis='x', which='both', bottom=False, top=True,labeltop=True,labelbottom=False)
+
 x_limits = ax.get_xlim()
 y_limits = ax.get_ylim()
 fig.gca().set_aspect(.8*(x_limits[1]-x_limits[0])/np.log10(y_limits[1]/y_limits[0]))
