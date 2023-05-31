@@ -84,15 +84,8 @@ for n_exp in N_exp:
 #******** Plot results *********
 w1 = np.load(os.path.join(data_dir,'wealth_trajectories_N5_Ne5.npy'))
 w2 = np.load(os.path.join(data_dir,'wealth_trajectories_N5_Ne0.npy'))
-#            w3 = np.load(os.path.join(data_dir,'wealth_trajectories_model_2_N2_Ne_0.npy'))
-#            w4 = np.load(os.path.join(data_dir,'wealth_trajectories_model_2_N10_Ne_0.npy'))
-#            w5 = np.load(os.path.join(data_dir,'wealth_trajectories_model_2_N5_Ne_0.npy'))
 STEPS, N = np.shape(w1)
 T=int(STEPS/N)
-#T, N = np.shape(w1)
-#            T3, N3 = np.shape(w3)
-#            T4, N4 = np.shape(w4)
-#            T5, N5 = np.shape(w5)
 fig, ax = plt.subplots(1,1)
 # Set the text size globally for the x-axis and y-axis
 ax.tick_params(axis='x', labelsize=12)
@@ -100,13 +93,17 @@ ax.tick_params(axis='y', labelsize=12)
 ax.semilogy(range(T),np.exp(range(T)*np.log(1-c*p)), color=(1,0,0), linewidth=1.5, linestyle='--',alpha=1,label=r'expected value') #plot expected wealth.
 ax.semilogy(np.arange(0,T,1./N),w1, color='orange', linewidth=1, linestyle='-',alpha=1) #plot non-insurers
 ax.semilogy(np.arange(0,T,1./N),w2, color='blue', linewidth=1, linestyle='-',alpha=1) #plot insurance buyers
-a = ax.plot([], color='blue', linewidth=1, linestyle='-',alpha=1,label='Time average optimizers')
-ax.plot([], color='orange', linewidth=1, linestyle='-',alpha=1,label='Expected value optimizers')
-ax.semilogy(range(T),np.exp(range(T)*(p*np.log(1-c))), color='green', linewidth=1.5, linestyle='--',alpha=1,label='time-average uninsured') #plot time-average growth
-ax.set(xlabel = 'time', ylabel = 'wealth')
+a = ax.plot([], color='blue', linewidth=1, linestyle='-',alpha=1,label='time average optimizers')
+ax.plot([], color='orange', linewidth=1, linestyle='-',alpha=1,label='expected value optimizers')
+ax.semilogy(range(T),np.exp(range(T)*(p*np.log(1-c))), color='green', linewidth=1.5, linestyle='--',alpha=1,label='time-average growth, uninsured') #plot time-average growth
+#ax.set(xlabel = 'time', ylabel = 'wealth')
+ax.set_xlabel('time', fontsize=12)
+ax.set_ylabel('wealth', fontsize=12)
 
 plt.xlim(0,T, auto=False)
 plt.ylim(10**-170,10**10, auto=False)
+new_yticks = [1, 10e-21, 10e-41, 10e-61, 10e-81, 10e-101, 10e-121, 10e-141, 10e-161]
+plt.yticks(new_yticks)
 x_limits = ax.get_xlim()
 y_limits = ax.get_ylim()
 fig.gca().set_aspect(.8*(x_limits[1]-x_limits[0])/np.log10(y_limits[1]/y_limits[0]))

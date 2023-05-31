@@ -33,12 +33,12 @@ plt.plot([250, 250],[1, 40], color='#555555',linewidth=1)   #plot x ticks
 plt.plot([500, 500],[1, 40], color='#555555',linewidth=1)
 plt.plot([750, 750],[1, 40], color='#555555',linewidth=1)
 plt.plot([1000, 1000],[1, 40], color='#555555',linewidth=1)
-ax.annotate('$250$', xy=(220,50), xytext=(220, 100))        #label x ticks
-ax.annotate('$500$', xy=(470,50), xytext=(470, 100))
-ax.annotate('$750$', xy=(720,50), xytext=(720, 100))
-ax.annotate('$1,000$', xy=(950,50), xytext=(950, 100))
-ax.annotate(r'time', xy=(950,50), xytext=(600, 10**6))      #label x axis
-ax.annotate(r'wealth',rotation=90, xy=(0,50), xytext=(-150, 10**-5))    #label y axis
+ax.annotate('$250$', xy=(220,50), xytext=(220, 100),fontsize=12)        #label x ticks
+ax.annotate('$500$', xy=(470,50), xytext=(470, 100),fontsize=12)
+ax.annotate('$750$', xy=(720,50), xytext=(720, 100),fontsize=12)
+ax.annotate('$1,000$', xy=(950,50), xytext=(950, 100),fontsize=12)
+ax.annotate(r'time', xy=(950,50), xytext=(600, 10**6),fontsize=12)      #label x axis
+ax.annotate(r'wealth',rotation=90, xy=(0,50), xytext=(-150, 10**-5),fontsize=12)    #label y axis
 
 plt.plot(expectation,color='r',label=r'expected value',linewidth=2,linestyle='--') #expected value
 plt.plot(time_ave,color='g',label=r'time average growth',linewidth=2,linestyle='--') #time-average growth
@@ -58,6 +58,7 @@ yticklocs=list([np.double(10**-30),np.double(10**-20),np.double(10**-10),np.doub
 # Show ticks in the left and lower axes only
 ax.yaxis.set_ticks_position('left')
 plt.yticks(yticklocs,[r'$10^{-30}$',r'$10^{-20}$',r'$10^{-20}$',r'$1$',r'$10^{10}$',r'$10^{20}$'])
+ax.tick_params(axis='y', labelsize=12)
 plt.tick_params(
     axis='x',          # changes apply to the x-axis
     which='both',      # both major and minor ticks are affected

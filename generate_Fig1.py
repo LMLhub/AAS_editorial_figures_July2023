@@ -61,10 +61,10 @@ ax.annotate(r' $\hspace{39}$ ',\
             bbox=dict(boxstyle='round,pad=0.2', fc='red', alpha=0.3),rotation=90)
 ax.annotate('time',\
             xy=(93,3), xycoords='data',\
-            xytext=(-20, 15), textcoords='offset points',size=15)
+            xytext=(-20, 15), textcoords='offset points',size=12)
 ax.annotate('realization',\
             xy=(-15,-50), xycoords='data',\
-            xytext=(0, 20), textcoords='offset points',rotation=-90,size=15)
+            xytext=(2, 20), textcoords='offset points',rotation=-90,size=12)
 plt.plot(range(0,T+1),x.iloc[1,:],linestyle='-',color='orange')
 plt.plot(range(0,T+1),x.iloc[2,:]-10,linestyle='-',color='orange')
 plt.plot(range(0,T+1),x.iloc[3,:]-20,linestyle='-',color='orange')
