@@ -40,31 +40,31 @@ for n_exp in N_exp:
         risk=w[t][i]*c              #set magnitude of risk
 
 #find fees at which agents offer to insure the risk
-        min_fee = np.zeros(N)   
+        offer = np.zeros(N)   
         for n in range(N):
             if temporal[n] == 0:    #expected-wealth optizing agents..
-                min_fee[n] = p * risk   #...offer insurance at expected loss.
-                if w[t][n]+min_fee[n]-risk<0:   #if risk to be insured can bankrupt the agent..
-                    min_fee[n] = np.inf         #...don't offer insurance.
+                offer[n] = p * risk   #...offer insurance at expected loss.
+                if w[t][n]+offer[n]-risk<0:   #if risk to be insured can bankrupt the agent..
+                    offer[n] = np.inf         #...don't offer insurance.
                     
             else: #time-average optimizing agents offer insurance at fee which leaves their time-average growth unchanged
-                min_fee[n] = root_scalar(min_func,args=(w[t][n], p, risk), method='brentq', bracket=[0, risk],xtol=2e-300).root
-        min_fee[i] = np.inf     #exclude self-insurance
+                offer[n] = root_scalar(min_func,args=(w[t][n], p, risk), method='brentq', bracket=[0, risk],xtol=2e-300).root
+        offer[i] = np.inf     #exclude self-insurance
 
 
-        min_fee_j = np.min(min_fee) #find minimum fee
-        j = np.argmin(min_fee)      #find agent offering minimum fee
+        cheapest_offer = np.min(offer) #find minimum fee
+        j = np.argmin(offer)      #find agent offering minimum fee
 
         #find highest fee insurance-seeking agent would pay to remove risk
-        max_fee_i=w[t][i]*(1-np.exp(p*(np.log(1-c)))) if temporal[i] != 0 else -np.inf
+        max_bid=w[t][i]*(1-np.exp(p*(np.log(1-c)))) if temporal[i] != 0 else -np.inf
         #note: we set the max fee of expected-wealth optimizers to -inf to make sure they don't buy
         #insurance. By the insurance puzzle, they never will, but limited floating-point precision
         #means they might in a simulation.
 
         #update wealths
         win = np.random.uniform(0,1)>p  #determine if loss occurs
-        if max_fee_i>min_fee_j:   #if a contract is made
-            fee=min_fee_j #set fee at lowest offer
+        if max_bid>cheapest_offer:   #if a contract is made
+            fee=cheapest_offer #set fee at lowest offer
             w[t+1][i]= w[t][i] - fee # deterministic wealth change for insured agent
             if win:
                 w[t+1][j]=w[t][j] + fee #update wealth for insurance seller if no loss
